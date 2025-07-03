@@ -1,6 +1,8 @@
 from experta import Fact, Field
 from knowledge_base.violence_types import VIOLENCE_TYPES, SEVERITY_LEVEL, REPORT_CONTACT
-import streamlit as st  # type: ignore
+import streamlit as st
+
+### Fatos de Entrada ###
 
 class TextRelato(Fact):
     text = Field(str, mandatory=True)
@@ -28,6 +30,8 @@ class RelationshipFact(Fact):
 class ImpactFact(Fact):
     type = Field(str, mandatory=True)
 
+### Fatos de Saída ###
+
 class ViolenceClassification(Fact):
     """
     Representa o resultado da classificação de um tipo de violência.
@@ -43,6 +47,8 @@ class AnalysisResult(Fact):
     classifications = Field(list, default=[])   # Lista de classificações 
     primary_result = Field(dict, default=None)  # Resultado principal
     multiple_types = Field(bool, default=False) # Indica se foram encontrados múltiplos tipos\
+
+### Fatos de Controle ###
 
 class ProcessingPhase(Fact):
     """Controla a fase de processamento do motor de inferência."""
