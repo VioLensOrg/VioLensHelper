@@ -398,23 +398,6 @@ class ViolenceTypeFactory:
             severity_score=4
         )
         
-        # Subtipos
-        main_type.add_subtype(ViolenceSubtype(
-            name="discriminacao_regional",
-            definition="Preconceito contra pessoas de diferentes regiões do país, incluindo sotaque, costumes e cultura.",
-            keywords=["preconceito regional", "sotaque", "nordestino", "nortista", "caipira"],
-            behaviors=["imitar sotaque de forma pejorativa", "fazer piadas regionais"],
-            severity_score=4
-        ))
-        
-        main_type.add_subtype(ViolenceSubtype(
-            name="xenofobia_internacional",
-            definition="Discriminação direcionada especificamente a pessoas de outros países.",
-            keywords=["estrangeiro", "imigrante", "refugiado", "país de origem"],
-            behaviors=["negar serviços", "hostilizar por nacionalidade", "comentários xenófobos"],
-            severity_score=5
-        ))
-        
         return main_type
 
     @staticmethod

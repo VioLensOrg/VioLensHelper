@@ -223,38 +223,24 @@ class DiscriminationRulesMixin:
         ])
 
     # XENOFOBIA
+    
     @Rule(
         ProcessingPhase(phase="analysis"),
         OR(
             ViolenceBehavior(behavior_type="piada_sotaque"),
-            KeywordFact(category="action_type", keyword="piada_sotaque")
-        ),
-        OR(
-            TargetFact(characteristic="origem_regional"),
-            KeywordFact(category="target", keyword="origem_regional")
-        )
-    )
-    def detect_discriminacao_regional(self):
-        """Detecta discriminação regional."""
-        self.create_classification("xenofobia", "discriminacao_regional", [
-            "Identificadas piadas ou comentários sobre sotaque",
-            "Direcionados à origem regional da vítima"
-        ])
-
-    @Rule(
-        ProcessingPhase(phase="analysis"),
-        OR(
+            KeywordFact(category="action_type", keyword="piada_sotaque"),
             ViolenceBehavior(behavior_type="discriminacao_origem"),
             KeywordFact(category="action_type", keyword="discriminacao_origem")
         ),
         OR(
+            TargetFact(characteristic="origem_regional"),
+            KeywordFact(category="target", keyword="origem_regional"),
             TargetFact(characteristic="origem_estrangeira"),
             KeywordFact(category="target", keyword="origem_estrangeira")
         )
     )
-    def detect_xenofobia_internacional(self):
-        """Detecta xenofobia internacional."""
-        self.create_classification("xenofobia", "xenofobia_internacional", [
-            "Identificada discriminação baseada em origem",
-            "Direcionada à origem estrangeira da vítima"
+    def detect_xenofobia(self):
+        """Detecta xenofobia de qualquer tipo."""
+        self.create_classification("xenofobia", None, [
+            "Identificada discriminação baseada em origem regional ou estrangeira"
         ])
