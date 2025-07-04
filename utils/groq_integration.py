@@ -2,6 +2,7 @@ import json
 import requests
 from typing import Dict, List, Any, Optional
 import os
+from knowledge_base.keywords_dictionary import KEYWORDS_DICT, KEYWORD_DESCRIPTIONS
 
 class GroqAPI:
     """
@@ -48,15 +49,15 @@ class GroqAPI:
         for category, keywords in keywords_dict.items():
             system_prompt += f"\n{category.upper()}:\n"
             system_prompt += ", ".join(f'"{kw}"' for kw in keywords)
-        
-        # Instruções para follow-up (se aplicável)
-        if is_follow_up and missing_fields:
-            system_prompt += "\n\nInformações importantes faltando: " + ", ".join(missing_fields)
-            system_prompt += "\nFormule perguntas específicas para obter estas informações."
-            system_prompt += "\nLembre-se: não pergunte sobre informações já fornecidas ou que o usuário já indicou desconhecer."
-            system_prompt += "\nNão pergunte sobre informações que o usuário já disse não saber, como nomes ou detalhes que ele não viu."
-            system_prompt += "\nNão invente nada, apenas identifique palavras-chave do relato que forem claramente aceitáveis."
+            for kw in keywords:
+                description = KEYWORD_DESCRIPTIONS.get(kw, "")
+                if description:
+                    system_prompt += f'"{kw}" - {description}\n'
+                else:
+                    system_prompt += f'"{kw}", '
 
+
+        
         # Formato de resposta obrigatório
         system_prompt += """
         
@@ -70,13 +71,9 @@ class GroqAPI:
                 "relationship": ["palavra6"],
                 "impact": ["palavra7"]
             },
-            "missing_information": ["campo1", "campo2"],
-            "follow_up_questions": ["pergunta específica 1?", "pergunta específica 2?"]
         }
         
         Só inclua categorias que tenham palavras-chave identificadas.
-        Para "relationship", se o relato indicar que o agressor é desconhecido, NÃO solicite mais informações sobre identidade.
-        Certifique-se de que suas perguntas complementares são relevantes e não contradizem o que já foi compartilhado.
         """
         
         return {

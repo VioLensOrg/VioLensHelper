@@ -242,46 +242,6 @@ class ViolenceTypeFactory:
         )
 
     @staticmethod
-    def create_gordofobia() -> ViolenceType:
-        """Cria o tipo de violência: gordofobia."""
-        main_type = ViolenceType(
-            name="gordofobia",
-            definition="Discriminação, preconceito ou estigmatização baseada no peso corporal ou aparência física relacionada ao peso da pessoa.",
-            severity=Severity.MEDIA_ALTA,
-            keywords=["gordo", "peso", "corpo grande", "sobrepeso", "obeso", "obesidade", "gordura"],
-            report_channels=["Ouvidoria", "Comissao_Etica"],
-            recommendations=[
-                "Documente situações de discriminação relacionadas ao peso",
-                "Registre denúncia junto à Ouvidoria e Comissão de Ética da instituição",
-                "Solicite adequações necessárias para acessibilidade quando aplicável",
-                "Busque apoio em grupos de aceitação corporal e movimentos anti-gordofobia",
-                "Procure acompanhamento psicológico para lidar com impactos na autoestima",
-                "Considere reportar casos graves ao Ministério Público (discriminação)",
-                "Conheça seus direitos relacionados à não-discriminação por características físicas"
-            ],
-            severity_score=4
-        )
-        
-        # Subtipos
-        main_type.add_subtype(ViolenceSubtype(
-            name="discriminacao_direta",
-            definition="Insultos, piadas e comentários depreciativos explícitos relacionados ao peso da pessoa.",
-            keywords=["piada sobre peso", "insulto", "comentários sobre aparência"],
-            behaviors=["fazer piadas sobre peso", "insultar baseado no tamanho do corpo"],
-            severity_score=4
-        ))
-        
-        main_type.add_subtype(ViolenceSubtype(
-            name="discriminacao_estrutural",
-            definition="Exclusão sistemática e barreiras físicas ou sociais baseadas em peso e tamanho corporal.",
-            keywords=["exclusão", "barreira", "acessibilidade", "mobilidade limitada"],
-            behaviors=["negar acesso", "excluir de atividades", "não fornecer adaptações"],
-            severity_score=5
-        ))
-        
-        return main_type
-
-    @staticmethod
     def create_capacitismo() -> ViolenceType:
         """Cria o tipo de violência: capacitismo."""
         main_type = ViolenceType(
