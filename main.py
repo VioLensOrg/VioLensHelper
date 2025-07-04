@@ -1,5 +1,5 @@
 import os
-import streamlit as st # type: ignore
+import streamlit as st
 from engine.expert_system import ExpertSystem
 from knowledge_base.violence_types import VIOLENCE_TYPES
 
@@ -21,7 +21,7 @@ st.title("Sistema Especialista de Identificação de Violência")
 
 # Inicializar variáveis de estado da sessão
 if 'state' not in st.session_state:
-    st.session_state.state = 'initial'  # initial, follow_up, result
+    st.session_state.state = 'initial'
 if 'keywords' not in st.session_state:
     st.session_state.keywords = {}
 if 'questions' not in st.session_state:
@@ -50,7 +50,7 @@ if st.session_state.state == 'initial':
             st.error("Por favor, forneça um relato mais detalhado para análise.")
         else:
             with st.spinner("Analisando seu relato..."):
-                # Usar o sistema especialista em vez do processador diretamente
+                # Processar o texto do usuário através do sistema especialista
                 result = expert_system.analyze_text(user_text)
                 
                 # Atualizar a interface com os resultados

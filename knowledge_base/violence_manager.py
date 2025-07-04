@@ -21,7 +21,6 @@ class ViolenceTypeManager:
         self._violence_types["discriminacao_genero"] = factory.create_discriminacao_genero()
         self._violence_types["abuso_psicologico"] = factory.create_abuso_psicologico()
         self._violence_types["assedio_moral_genero"] = factory.create_assedio_moral_genero()
-        self._violence_types["gordofobia"] = factory.create_gordofobia()
         self._violence_types["capacitismo"] = factory.create_capacitismo()
         self._violence_types["violencia_digital"] = factory.create_violencia_digital()
         self._violence_types["discriminacao_religiosa"] = factory.create_discriminacao_religiosa()
