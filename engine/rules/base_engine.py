@@ -12,18 +12,12 @@ from knowledge_base.violence_types import VIOLENCE_TYPES
 
 
 class BaseViolenceEngine(KnowledgeEngine):
-    """
-    Classe base para o motor de regras de identificação de tipos de violência.
-    Contém métodos comuns e infraestrutura básica.
-    """
-
     def __init__(self):
         super().__init__()
         self.explanations = {}
 
     @DefFacts()
     def initial_facts(self):
-        """Define os fatos iniciais, incluindo a fase inicial de coleta."""
         yield Fact(engine_ready=True)
         yield ProcessingPhase(phase="collection")  # Fase inicial: coleta de fatos
 
@@ -33,16 +27,12 @@ class BaseViolenceEngine(KnowledgeEngine):
         Transição da fase de coleta para a fase de análise.
         Esta regra dispara após todos os fatos serem declarados.
         """
-        print("🔄 Transitando para fase de análise...")
+        print(" Transitando para fase de análise...")
         # Remover a fase de coleta
         for fact_id in self.get_matching_facts(ProcessingPhase):
             self.retract(fact_id)
         # Declarar a fase de análise
         self.declare(ProcessingPhase(phase="analysis"))
-
-    @Rule(Fact(engine_ready=True))
-    def rule_diagnostic(self):
-        print("✅ DIAGNÓSTICO: Motor de regras funcionando!")
 
     def create_classification(self, violence_type, subtype=None, explanations=None, facts_used=None, reasoning=None):
         """
@@ -99,13 +89,12 @@ class BaseViolenceEngine(KnowledgeEngine):
                 explanation=self.explanations.get(key, []).copy()  # Usar a lista completa e atual
             )
         )
-        print(f"📊 Criado {key}")
     
     def run(self, steps=None):
         """
         Executa o motor em modo controlado por fases.
         """
-        print("🚀 Iniciando motor de inferência com controle de fases")
+        print("\nIniciando análise com motor de inferência...")
         steps_value = -1 if steps is None else steps
         
         # Limitar o número máximo de iterações para evitar loops infinitos
@@ -121,7 +110,6 @@ class BaseViolenceEngine(KnowledgeEngine):
             if not self.agenda:
                 break
         
-        print("\n🔄 Consolidando resultados...")
         self.consolidate_results()
 
     def consolidate_results(self):
@@ -138,7 +126,7 @@ class BaseViolenceEngine(KnowledgeEngine):
             })
         
         if not all_classifications:
-            print("⚠️ Nenhuma classificação identificada, criando resultado vazio")
+            print("Nenhum tipo de violência identificado")
             self.declare(
                 AnalysisResult(
                     classifications=[],
@@ -153,7 +141,7 @@ class BaseViolenceEngine(KnowledgeEngine):
         
         # Primeiro resultado como principal
         primary_result = all_classifications[0]
-
+        
         self.declare(
             AnalysisResult(
                 classifications=all_classifications,
@@ -162,42 +150,34 @@ class BaseViolenceEngine(KnowledgeEngine):
             )
         )
 
-        print("\n✅ Análise consolidada:")
-        print(f"- Resultado principal: {primary_result['violence_type']}{' - ' + primary_result['subtype'] if primary_result.get('subtype') else ''}")
-        print(f"- Reportar múltiplos: {report_multiple}")
+        print(f"\nAnálise concluída:")
+        if report_multiple:
+            print(f"   • {len(all_classifications)} tipos de violência identificados")
+            for i, cls in enumerate(all_classifications, 1):
+                subtype_text = f" ({cls['subtype']})" if cls['subtype'] else ""
+                print(f"   {i}. {cls['violence_type']}{subtype_text}")
+        else:
+            subtype_text = f" - {primary_result['subtype']}" if primary_result.get('subtype') else ""
+            print(f"   • Tipo identificado: {primary_result['violence_type']}{subtype_text}")
+
         
     def get_explanation(self, violence_type, subtype=None):
-        """
-        Recupera explicações armazenadas para um tipo/subtipo.
-        """
         key = f"{violence_type}_{subtype}" if subtype else violence_type
         return self.explanations.get(key, [])
     
     def get_matching_facts(self, fact_type):
-        """
-        Retorna os IDs dos fatos que correspondem ao tipo especificado.
-        """
         return [fact_id for fact_id, fact in self.facts.items() 
                 if isinstance(fact, fact_type)]
     
     def debug_facts(self):
-        """
-        Exibe os fatos presentes para diagnóstico.
-        """
-        print("\n=== DEBUG: Fatos presentes no motor ===")
-        for fact_id, fact in self.facts.items():
-            print(f"- {fact_id}: {fact}")
+            print(f"\n{len(self.facts)} fatos carregados no motor de inferência")
+
 
     def reset(self):
-        """
-        Reinicia completamente o motor, limpando todos os fatos e explicações.
-        """
-        # Limpar explicações
         self.explanations = {}
         
-        # Chamar o reset original
         super().reset()
-        print("🔄 Motor de regras reiniciado completamente")
+        print("Motor de regras reiniciado completamente")
 
     def format_detailed_explanation(self, rule_name, facts_used, conclusion, reasoning=None):
         """
