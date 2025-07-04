@@ -78,10 +78,10 @@ CONCEPT_MAPPING = {
             "discriminacao_religiosa": {"discriminacao_institucional": CRITERION_WEIGHTS["behavior"]["critical"]}
         },
         "discriminacao_origem": {
-            "xenofobia": {"xenofobia_internacional": CRITERION_WEIGHTS["behavior"]["critical"]}
+            "xenofobia": CRITERION_WEIGHTS["behavior"]["critical"]
         },
         "piada_sotaque": {
-            "xenofobia": {"discriminacao_regional": CRITERION_WEIGHTS["behavior"]["critical"]}
+            "xenofobia": CRITERION_WEIGHTS["behavior"]["critical"]
         }
     },
     "frequencia": {
@@ -110,7 +110,8 @@ CONCEPT_MAPPING = {
             "perseguicao": CRITERION_WEIGHTS["frequency"]["repeated"],
             "discriminacao_genero": {"discriminacao_sutil": CRITERION_WEIGHTS["frequency"]["repeated"]},
             "abuso_psicologico": CRITERION_WEIGHTS["frequency"]["repeated"],
-            "violencia_digital": {"cyberbullying": CRITERION_WEIGHTS["frequency"]["repeated"]}
+            "violencia_digital": {"cyberbullying": CRITERION_WEIGHTS["frequency"]["repeated"]},
+            "xenofobia": CRITERION_WEIGHTS["frequency"]["repeated"]
         },
         "continuamente": {
             "microagressoes": {
@@ -121,7 +122,7 @@ CONCEPT_MAPPING = {
             "discriminacao_genero": {"discriminacao_sutil": CRITERION_WEIGHTS["frequency"]["continuous"]},
             "abuso_psicologico": CRITERION_WEIGHTS["frequency"]["continuous"],
             "assedio_moral_genero": CRITERION_WEIGHTS["frequency"]["continuous"],
-            "xenofobia": {"discriminacao_regional": CRITERION_WEIGHTS["frequency"]["continuous"]}
+            "xenofobia": CRITERION_WEIGHTS["frequency"]["continuous"]
         }
     },
     "contexto": {
@@ -211,13 +212,10 @@ CONCEPT_MAPPING = {
         },
         "origem_regional": {
             "microagressoes": {"estereotipos": CRITERION_WEIGHTS["target"]["supporting"]},
-            "xenofobia": {
-                "discriminacao_regional": CRITERION_WEIGHTS["target"]["critical"],
-                "xenofobia_internacional": CRITERION_WEIGHTS["target"]["relevant"]
-            }
+            "xenofobia": CRITERION_WEIGHTS["target"]["critical"]
         },
         "origem_estrangeira": {
-            "xenofobia": {"xenofobia_internacional": CRITERION_WEIGHTS["target"]["critical"]}
+            "xenofobia": CRITERION_WEIGHTS["target"]["critical"]
         },
         "desempenho_academico": {
             "microagressoes": {"questionar_julgamento": CRITERION_WEIGHTS["target"]["supporting"]}
@@ -282,7 +280,7 @@ CONCEPT_MAPPING = {
                 "importunacao_sexual": CRITERION_WEIGHTS["impact"]["strong"],
                 "estupro": CRITERION_WEIGHTS["impact"]["critical"]
             },
-            "xenofobia": {"xenofobia_internacional": CRITERION_WEIGHTS["impact"]["strong"]}
+            "xenofobia": CRITERION_WEIGHTS["impact"]["strong"]
         },
         "violacao_privacidade": {
             "violencia_sexual": {
@@ -300,7 +298,7 @@ CONCEPT_MAPPING = {
         },
         "discriminacao_identidade": {
             "discriminacao_religiosa": {"ofensa_direta": CRITERION_WEIGHTS["impact"]["strong"]},
-            "xenofobia": {"xenofobia_internacional": CRITERION_WEIGHTS["impact"]["strong"]}
+            "xenofobia": CRITERION_WEIGHTS["impact"]["strong"]
         }
     }
 }
