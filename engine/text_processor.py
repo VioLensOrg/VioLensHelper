@@ -1,13 +1,12 @@
 import os
 from typing import Dict, List, Any
-import json
 
 from knowledge_base.keywords_dictionary import KEYWORDS_DICT
 from utils.groq_integration import GroqAPI
 
 from engine.facts import (
     TextRelato, KeywordFact, ViolenceBehavior, ContextFact, FrequencyFact,
-    TargetFact, RelationshipFact, ImpactFact, create_facts_from_groq_response
+    TargetFact, RelationshipFact, ImpactFact
 )
 
 class TextProcessor:

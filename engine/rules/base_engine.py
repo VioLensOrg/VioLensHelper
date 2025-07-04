@@ -10,7 +10,6 @@ from ..facts import (
 
 from knowledge_base.violence_types import VIOLENCE_TYPES
 
-
 class BaseViolenceEngine(KnowledgeEngine):
     def __init__(self):
         super().__init__()

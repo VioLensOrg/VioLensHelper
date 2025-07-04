@@ -74,7 +74,7 @@ KEYWORD_ALIASES = {
     "limitacao_acesso": "Limitação de acesso",
     "discriminacao_identidade": "Discriminação de identidade",
     
-    # Adicionar aliases para tipos de violência que aparecem nas explicações
+    # aliases para tipos de violência que aparecem nas explicações
     "violencia_sexual": "Violência Sexual",
     "estupro": "Estupro",
     "assedio_sexual": "Assédio Sexual",
@@ -89,7 +89,7 @@ KEYWORD_ALIASES = {
     "assedio_moral_genero": "Assédio Moral de Gênero",
     "discriminacao_religiosa": "Discriminação Religiosa",
     
-    # Adicionar aliases para frases comuns nas explicações
+    # aliases para frases comuns nas explicações
     "do tipo": "do tipo",
     "comportamentos de": "comportamentos de",
     "em seu relato": "em seu relato",

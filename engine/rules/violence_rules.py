@@ -22,24 +22,10 @@ class ViolenceRules(
     - BaseViolenceEngine: Infraestrutura básica e métodos comuns
     - MicroaggressionRulesMixin: Regras para microagressões
     - SexualViolenceRulesMixin: Regras para violência sexual
-    - DiscriminationRulesMixin: Regras para discriminação (gênero, racial, etc.)
+    - DiscriminationRulesMixin: Regras para discriminação
     - HarassmentRulesMixin: Regras para assédio/perseguição
     - DigitalViolenceRulesMixin: Regras para violência digital
     """
     
     def __init__(self):
         super().__init__()
-    
-    def get_loaded_modules(self):
-        """
-        Retorna informações sobre os módulos carregados.
-        """
-        modules = [
-            "BaseViolenceEngine - Infraestrutura básica",
-            "MicroaggressionRulesMixin - Regras de microagressões",
-            "SexualViolenceRulesMixin - Regras de violência sexual",
-            "DiscriminationRulesMixin - Regras de discriminação",
-            "HarassmentRulesMixin - Regras de assédio/perseguição",
-            "DigitalViolenceRulesMixin - Regras de violência digital"
-        ]
-        return modules

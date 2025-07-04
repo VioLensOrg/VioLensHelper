@@ -1,6 +1,6 @@
 from experta import Fact, Field
 from knowledge_base.violence_types import VIOLENCE_TYPES, SEVERITY_LEVEL, REPORT_CONTACT
-import streamlit as st # type: ignore
+import streamlit as st
 
 ### Fatos de Entrada ###
 
