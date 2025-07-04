@@ -1,10 +1,5 @@
-"""
-Arquivo de compatibilidade para violence_types.py refatorado.
-Este arquivo mantém a compatibilidade com o código existente enquanto
-utiliza a nova estrutura modular.
-"""
-
-# Importa a nova estrutura refatorada
+# Arquivo criado para juntar todas as funções que foram refatoradas em um unico arquivo
+# do contrario, iria quebrar completamente o codigo já existente
 from .violence_manager import (
     VIOLENCE_TYPES,
     CRITERION_WEIGHTS, 

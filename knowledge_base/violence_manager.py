@@ -1,12 +1,7 @@
-"""
-Gerenciador central de tipos de violência.
-Este módulo substitui o arquivo violence_types.py original com uma estrutura mais organizada.
-"""
 from typing import Dict, List, Optional
 from .models.violence_type import ViolenceType, ViolenceSubtype, Severity, ReportChannel
 from .models.criteria import CriterionWeights
 from .factories.violence_factory import ViolenceTypeFactory
-
 
 class ViolenceTypeManager:
     """Gerenciador central para todos os tipos de violência."""
@@ -18,10 +13,8 @@ class ViolenceTypeManager:
         self._initialize_report_channels()
     
     def _initialize_violence_types(self):
-        """Inicializa todos os tipos de violência."""
         factory = ViolenceTypeFactory()
         
-        # Adiciona todos os tipos de violência
         self._violence_types["microagressoes"] = factory.create_microagressoes()
         self._violence_types["perseguicao"] = factory.create_perseguicao()
         self._violence_types["violencia_sexual"] = factory.create_violencia_sexual()
@@ -35,7 +28,6 @@ class ViolenceTypeManager:
         self._violence_types["discriminacao_racial"] = factory.create_discriminacao_racial()
     
     def _initialize_report_channels(self):
-        """Inicializa os canais de denúncia."""
         self._report_channels = {
             "Ouvidoria": ReportChannel(
                 name="Ouvidoria",
@@ -99,38 +91,28 @@ class ViolenceTypeManager:
         }
     
     def get_violence_type(self, name: str) -> Optional[ViolenceType]:
-        """Retorna um tipo de violência específico."""
         return self._violence_types.get(name)
     
     def get_all_violence_types(self) -> Dict[str, ViolenceType]:
-        """Retorna todos os tipos de violência."""
         return self._violence_types.copy()
     
     def get_violence_subtype(self, violence_type: str, subtype_name: str) -> Optional[ViolenceSubtype]:
-        """Retorna um subtipo específico de violência."""
         vtype = self.get_violence_type(violence_type)
         return vtype.get_subtype(subtype_name) if vtype else None
     
     def get_report_channel(self, name: str) -> Optional[ReportChannel]:
-        """Retorna um canal de denúncia específico."""
         return self._report_channels.get(name)
     
     def get_all_report_channels(self) -> Dict[str, ReportChannel]:
-        """Retorna todos os canais de denúncia."""
         return self._report_channels.copy()
     
     def get_severity_score(self, violence_type: str, subtype_name: str = None) -> int:
-        """Retorna o score de gravidade para um tipo/subtipo de violência."""
         vtype = self.get_violence_type(violence_type)
         if not vtype:
             return 0
         return vtype.get_severity_score(subtype_name)
     
     def search_by_keywords(self, keywords: List[str]) -> List[tuple]:
-        """
-        Busca tipos de violência por palavras-chave.
-        Retorna lista de tuplas (violence_type, subtype, relevance_score).
-        """
         results = []
         keywords_lower = [k.lower() for k in keywords]
         
@@ -155,7 +137,6 @@ class ViolenceTypeManager:
         return results
     
     def get_recommendations(self, violence_type: str, subtype_name: str = None) -> List[str]:
-        """Retorna recomendações para um tipo/subtipo de violência."""
         vtype = self.get_violence_type(violence_type)
         if not vtype:
             return []
@@ -168,7 +149,6 @@ class ViolenceTypeManager:
         return vtype.recommendations
     
     def get_report_channels_for_violence(self, violence_type: str, subtype_name: str = None) -> List[ReportChannel]:
-        """Retorna os canais de denúncia para um tipo/subtipo de violência."""
         vtype = self.get_violence_type(violence_type)
         if not vtype:
             return []
@@ -185,12 +165,12 @@ class ViolenceTypeManager:
         return [self._report_channels[name] for name in channel_names if name in self._report_channels]
 
     def to_dict_format(self) -> Dict:
-        """Converte para o formato de dicionário compatível com o código existente."""
+        """Converte para o formato de dicionário utilizado pelo sistema."""
         result = {}
         
         for vtype_name, vtype in self._violence_types.items():
             vtype_dict = {
-                "nome": vtype_name.replace('_', ' ').title(),  # Adiciona campo nome esperado
+                "nome": vtype_name.replace('_', ' ').title(),
                 "definicao": vtype.definition,
                 "gravidade": vtype.severity.value,
                 "palavras_chave": vtype.keywords,
@@ -223,28 +203,21 @@ class ViolenceTypeManager:
         
         return result
 
-
-# Instância global para compatibilidade com o código existente
+# Funções de compatibilidade para a refatoração
 _violence_manager = ViolenceTypeManager()
 
-# Funções para compatibilidade com o código existente
 def get_severity(vtype: str, subtype: str = None) -> int:
-    """Função de compatibilidade para obter gravidade."""
     return _violence_manager.get_severity_score(vtype, subtype)
 
 def get_violence_types() -> Dict[str, Dict]:
-    """Função de compatibilidade para obter todos os tipos."""
     return _violence_manager.to_dict_format()
 
 def get_criterion_weights() -> Dict[str, Dict[str, int]]:
-    """Função de compatibilidade para obter pesos dos critérios."""
     return CriterionWeights.get_all_weights()
 
-# Exports para compatibilidade
 VIOLENCE_TYPES = _violence_manager.to_dict_format()
 CRITERION_WEIGHTS = CriterionWeights.get_all_weights()
 
-# Conversão dos canais de denúncia para o formato esperado
 REPORT_CONTACT = {}
 for name, channel in _violence_manager.get_all_report_channels().items():
     REPORT_CONTACT[name] = {
@@ -253,7 +226,6 @@ for name, channel in _violence_manager.get_all_report_channels().items():
         "procedimento": channel.procedure
     }
 
-# Mapeamento de gravidade para compatibilidade
 SEVERITY_LEVEL = {
     "baixa": "Comportamento inadequado que requer atenção e orientação.",
     "baixa_cumulativa": "Comportamentos que individualmente são de baixa gravidade, mas podem causar danos significativos quando repetidos.",
@@ -264,7 +236,6 @@ SEVERITY_LEVEL = {
     "gravissima": "Violação extremamente grave que constitui crime passível de expulsão."
 }
 
-# Ranking de gravidade para compatibilidade
 SEVERITY_RANKING = {}
 for vtype_name, vtype in _violence_manager.get_all_violence_types().items():
     if vtype.subtypes:

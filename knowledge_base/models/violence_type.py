@@ -1,13 +1,9 @@
-"""
-Modelos de dados para tipos de violência.
-"""
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Union
 from enum import Enum
 
 
 class Severity(Enum):
-    """Níveis de gravidade das violências."""
     BAIXA = "baixa"
     BAIXA_CUMULATIVA = "baixa_cumulativa"
     MEDIA_BAIXA = "media_baixa"
@@ -44,22 +40,18 @@ class ViolenceType:
     severity_score: int = 0
 
     def add_subtype(self, subtype: ViolenceSubtype) -> None:
-        """Adiciona um subtipo a este tipo de violência."""
         self.subtypes[subtype.name] = subtype
 
     def get_subtype(self, name: str) -> Optional[ViolenceSubtype]:
-        """Retorna um subtipo específico."""
         return self.subtypes.get(name)
 
     def get_all_keywords(self) -> List[str]:
-        """Retorna todas as palavras-chave do tipo e seus subtipos."""
         all_keywords = self.keywords.copy()
         for subtype in self.subtypes.values():
             all_keywords.extend(subtype.keywords)
         return list(set(all_keywords))
 
     def get_severity_score(self, subtype_name: str = None) -> int:
-        """Retorna o score de gravidade do tipo ou subtipo."""
         if subtype_name and subtype_name in self.subtypes:
             return self.subtypes[subtype_name].severity_score
         return self.severity_score
@@ -67,7 +59,6 @@ class ViolenceType:
 
 @dataclass
 class ReportChannel:
-    """Canal de denúncia."""
     name: str
     description: str
     contact: str = ""

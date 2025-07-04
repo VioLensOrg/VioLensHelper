@@ -1,17 +1,13 @@
-"""
-Fábrica para criação de tipos de violência.
-"""
 from typing import Dict
 from ..models.violence_type import ViolenceType, ViolenceSubtype, Severity, ReportChannel
 from ..models.criteria import CriterionWeights
 
 
 class ViolenceTypeFactory:
-    """Fábrica para criar tipos de violência de forma consistente."""
+    """Função para criar tipos de violência de forma consistente."""
     
     @staticmethod
     def create_microagressoes() -> ViolenceType:
-        """Cria o tipo de violência: microagressões."""
         main_type = ViolenceType(
             name="microagressoes",
             definition="Comentários e comportamentos sutis, muitas vezes inconscientes, que desrespeitam, desvalorizam ou diminuem a dignidade de uma pessoa com base em sua identidade de grupo.",
@@ -68,7 +64,6 @@ class ViolenceTypeFactory:
 
     @staticmethod
     def create_perseguicao() -> ViolenceType:
-        """Cria o tipo de violência: perseguição."""
         return ViolenceType(
             name="perseguicao",
             definition="Perseguir alguém, repetidamente e por qualquer meio, ameaçando sua integridade física ou psicológica, restringindo sua capacidade de ir e vir ou invadindo sua liberdade ou privacidade.",
@@ -90,7 +85,6 @@ class ViolenceTypeFactory:
 
     @staticmethod
     def create_violencia_sexual() -> ViolenceType:
-        """Cria o tipo de violência: violência sexual."""
         main_type = ViolenceType(
             name="violencia_sexual",
             definition="Categoria que engloba diferentes condutas de natureza sexual não consentidas.",
@@ -159,7 +153,6 @@ class ViolenceTypeFactory:
 
     @staticmethod
     def create_discriminacao_genero() -> ViolenceType:
-        """Cria o tipo de violência: discriminação de gênero."""
         main_type = ViolenceType(
             name="discriminacao_genero",
             definition="Inclui qualquer exclusão, restrição ou preferência com base no sexo, gênero, orientação sexual ou identidade e expressão, ou qualquer outra limitação que interfira no reconhecimento ou exercício de direitos fundamentais.",
@@ -199,7 +192,6 @@ class ViolenceTypeFactory:
     
     @staticmethod
     def create_abuso_psicologico() -> ViolenceType:
-        """Cria o tipo de violência: abuso psicológico."""
         return ViolenceType(
             name="abuso_psicologico",
             definition="Causar danos emocionais que perturbam o desenvolvimento da pessoa ou visam degradar/controlar suas ações por meio de ameaças, constrangimento, humilhação, isolamento, chantagem ou ridicularização.",
@@ -221,7 +213,6 @@ class ViolenceTypeFactory:
 
     @staticmethod
     def create_assedio_moral_genero() -> ViolenceType:
-        """Cria o tipo de violência: assédio moral por gênero."""
         return ViolenceType(
             name="assedio_moral_genero",
             definition="Processo contínuo de condutas abusivas que violam a integridade, através da degradação das relações, pressão para tarefas desnecessárias, discriminação, humilhação ou exclusão social.",
@@ -243,7 +234,6 @@ class ViolenceTypeFactory:
 
     @staticmethod
     def create_capacitismo() -> ViolenceType:
-        """Cria o tipo de violência: capacitismo."""
         main_type = ViolenceType(
             name="capacitismo",
             definition="Discriminação e preconceito contra pessoas com deficiência, incluindo barreiras atitudinais, físicas e institucionais que limitam sua participação plena na sociedade.",
@@ -284,7 +274,6 @@ class ViolenceTypeFactory:
 
     @staticmethod
     def create_violencia_digital() -> ViolenceType:
-        """Cria o tipo de violência: violência digital."""
         main_type = ViolenceType(
             name="violencia_digital",
             definition="Agressões, assédio, intimidação ou exposição não consentida em ambiente digital ou através de tecnologias de comunicação.",
@@ -339,7 +328,6 @@ class ViolenceTypeFactory:
 
     @staticmethod
     def create_discriminacao_religiosa() -> ViolenceType:
-        """Cria o tipo de violência: discriminação religiosa."""
         main_type = ViolenceType(
             name="discriminacao_religiosa",
             definition="Preconceito, exclusão ou tratamento desigual baseado na crença, religião ou prática espiritual de uma pessoa.",
@@ -379,7 +367,6 @@ class ViolenceTypeFactory:
 
     @staticmethod
     def create_xenofobia() -> ViolenceType:
-        """Cria o tipo de violência: xenofobia."""
         main_type = ViolenceType(
             name="xenofobia",
             definition="Preconceito, discriminação ou hostilidade contra pessoas de outros países, regiões ou culturas, consideradas estrangeiras.",
@@ -402,7 +389,6 @@ class ViolenceTypeFactory:
 
     @staticmethod
     def create_discriminacao_racial() -> ViolenceType:
-        """Cria o tipo de violência: discriminação racial."""
         main_type = ViolenceType(
             name="discriminacao_racial",
             definition="Discriminação, preconceito ou estigmatização baseada em raça, cor, etnia ou características fenotípicas.",
