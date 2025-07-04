@@ -127,14 +127,20 @@ elif st.session_state.state == 'result':
                 # Exibir explicações se disponíveis
                 if "explanation" in r and r["explanation"]:
                     st.subheader("Por que identificamos este tipo:")
-                    for exp in r["explanation"]:
-                        st.write(f"- {exp}")
+                    # Corrigir a formatação das explicações
+                    for i, exp in enumerate(r["explanation"]):
+                        if exp.strip():  # Verificar se a explicação não está vazia
+                            # Remover pontos desnecessários e formatar corretamente
+                            clean_exp = exp.strip()
+                            if clean_exp.startswith("- "):
+                                clean_exp = clean_exp[2:]
+                            st.write(f"• {clean_exp}")
                 
                 # Exibir recomendações se disponíveis
                 if "recomendacoes" in VIOLENCE_TYPES[vtype]:
                     st.subheader("Recomendações:")
                     for rec in VIOLENCE_TYPES[vtype]["recomendacoes"]:
-                        st.write(f"- {rec}")
+                        st.write(f"• {rec}")
     
     # Opção para reiniciar
     if st.button("Iniciar Nova Análise"):

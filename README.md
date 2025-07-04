@@ -9,5 +9,5 @@ Utiliza Groq para interpretação de linguagem natural e um motor de inferência
 
 ## Tecnologias Usadas
 
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" height="40" alt="java logo"/>
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" height="40" alt="java logo"/> [Python](https://www.python.org)
 * Versão 3.8.10
