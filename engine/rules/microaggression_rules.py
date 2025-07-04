@@ -25,7 +25,6 @@ class MicroaggressionRulesMixin:
         )
     )
     def detect_interrupcoes_constantes(self):
-        """Detecta interrupções constantes como microagressão."""
         facts_used = {}
         
         # Verificar comportamentos identificados
@@ -109,7 +108,6 @@ class MicroaggressionRulesMixin:
         )
     )
     def detect_comentarios_saude_mental(self):
-        """Detecta comentários relacionados à saúde mental como microagressão."""
         self.create_classification("microagressoes", "comentarios_saude_mental", [
             "Identificados comentários relacionados à saúde mental"
         ])
@@ -122,7 +120,6 @@ class MicroaggressionRulesMixin:
         )
     )
     def detect_estereotipos(self):
-        """Detecta piadas ou comentários baseados em estereótipos."""
         self.create_classification("microagressoes", "estereotipos", [
             "Identificadas piadas ou comentários baseados em estereótipos"
         ])

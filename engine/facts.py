@@ -54,27 +54,6 @@ class ProcessingPhase(Fact):
     """Controla a fase de processamento do motor de inferência."""
     phase = Field(str, mandatory=True)  # 'collection', 'analysis'
 
-def create_facts_from_groq_response(response):
-    facts = []
-    if "identified_keywords" in response and response["identified_keywords"]:
-        keywords = response["identified_keywords"]
-        for category, values in keywords.items():
-            for keyword in values:
-                facts.append(KeywordFact(category=category, keyword=keyword))
-                if category == "action_type":
-                    facts.append(ViolenceBehavior(behavior_type=keyword))
-                elif category == "context":
-                    facts.append(ContextFact(location=keyword))
-                elif category == "frequency":
-                    facts.append(FrequencyFact(value=keyword))
-                elif category == "target":
-                    facts.append(TargetFact(characteristic=keyword))
-                elif category == "relationship":
-                    facts.append(RelationshipFact(type=keyword))
-                elif category == "impact":
-                    facts.append(ImpactFact(type=keyword))
-    return facts
-
 def print_information(violence_type, subtype=None, confidence=None):
     info = VIOLENCE_TYPES.get(violence_type)
     if not info:

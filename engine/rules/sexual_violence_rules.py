@@ -20,7 +20,6 @@ class SexualViolenceRulesMixin:
         )
     )
     def detect_assedio_sexual(self):
-        """Detecta assédio sexual."""
         facts_used = {}
         
         # Verificar comportamentos identificados
@@ -52,7 +51,6 @@ class SexualViolenceRulesMixin:
         )
     )
     def detect_importunacao_sexual(self):
-        """Detecta importunação sexual."""
         facts_used = {}
         
         # Verificar comportamentos identificados

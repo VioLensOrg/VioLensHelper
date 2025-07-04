@@ -21,9 +21,6 @@ class ExplanationSystem:
     
     @staticmethod
     def get_legal_context(violence_type: str, subtype: str = None) -> str:
-        """
-        Retorna o contexto legal para um tipo/subtipo de violência.
-        """
         info = VIOLENCE_TYPES.get(violence_type, {})
         
         if subtype and 'subtipos' in info and subtype in info['subtipos']:
@@ -34,9 +31,6 @@ class ExplanationSystem:
     
     @staticmethod
     def get_severity_level(violence_type: str, subtype: str = None) -> str:
-        """
-        Retorna o nível de gravidade de um tipo/subtipo de violência.
-        """
         info = VIOLENCE_TYPES.get(violence_type, {})
         
         if subtype and 'subtipos' in info and subtype in info['subtipos']:
@@ -47,9 +41,6 @@ class ExplanationSystem:
     
     @staticmethod
     def get_recommendations(violence_type: str, subtype: str = None) -> List[str]:
-        """
-        Retorna as recomendações para um tipo/subtipo de violência.
-        """
         info = VIOLENCE_TYPES.get(violence_type, {})
         
         if subtype and 'subtipos' in info and subtype in info['subtipos']:
@@ -60,9 +51,6 @@ class ExplanationSystem:
     
     @staticmethod
     def get_reporting_channels(violence_type: str, subtype: str = None) -> List[str]:
-        """
-        Retorna os canais de denúncia para um tipo/subtipo de violência.
-        """
         info = VIOLENCE_TYPES.get(violence_type, {})
         
         if subtype and 'subtipos' in info and subtype in info['subtipos']:

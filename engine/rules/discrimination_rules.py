@@ -50,7 +50,6 @@ class DiscriminationRulesMixin:
         )
     )
     def detect_discriminacao_sutil(self):
-        """Detecta discriminação sutil baseada em gênero."""
         self.create_classification("discriminacao_genero", "discriminacao_sutil", [
             "Identificado comportamento de questionamento de capacidade",
             "Direcionado a características de gênero",
@@ -72,7 +71,6 @@ class DiscriminationRulesMixin:
         )
     )
     def detect_discriminacao_racial_direta(self):
-        """Detecta discriminação racial direta."""
         facts_used = {}
         
         # Verificar comportamentos identificados
@@ -115,7 +113,6 @@ class DiscriminationRulesMixin:
         )
     )
     def detect_discriminacao_racial_ofensa(self):
-        """Detecta ofensa racial."""
         self.create_classification("discriminacao_racial", "ofensa_direta", [
             "Identificada ofensa verbal de natureza racial",
             "Direcionada à raça/etnia da vítima"
@@ -127,7 +124,6 @@ class DiscriminationRulesMixin:
         TargetFact(characteristic="raca_etnia")
     )
     def detect_discriminacao_racial_direta_insulto(self):
-        """Detecta insulto racial direto."""
         self.create_classification("discriminacao_racial", "ofensa_direta", [
             "Identificada ofensa verbal explícita de natureza racial",
             "Direcionada especificamente à raça/etnia da vítima"
@@ -142,7 +138,6 @@ class DiscriminationRulesMixin:
         )
     )
     def detect_discriminacao_racial_comportamento(self):
-        """Detecta comportamento de insulto racial."""
         self.create_classification("discriminacao_racial", "ofensa_direta", [
             "Identificado comportamento de insulto racial",
             "Direcionado à raça/etnia da vítima"
@@ -171,7 +166,6 @@ class DiscriminationRulesMixin:
         )
     )
     def detect_ofensa_religiosa_direta(self):
-        """Detecta ofensa religiosa direta."""
         self.create_classification("discriminacao_religiosa", "ofensa_direta", [
             "Identificada zombaria ou piadas sobre religião",
             "Direcionada a características religiosas da vítima"
@@ -185,7 +179,6 @@ class DiscriminationRulesMixin:
         )
     )
     def detect_discriminacao_religiosa_institucional(self):
-        """Detecta discriminação religiosa institucional."""
         self.create_classification("discriminacao_religiosa", "discriminacao_institucional", [
             "Identificado impedimento de práticas religiosas"
         ])
@@ -199,7 +192,6 @@ class DiscriminationRulesMixin:
         )
     )
     def detect_barreiras_fisicas(self):
-        """Detecta capacitismo por barreiras físicas."""
         self.create_classification("capacitismo", "barreiras_fisicas", [
             "Identificada negação de acessibilidade ou barreiras físicas"
         ])
@@ -216,7 +208,6 @@ class DiscriminationRulesMixin:
         )
     )
     def detect_barreiras_atitudinais(self):
-        """Detecta capacitismo por barreiras atitudinais."""
         self.create_classification("capacitismo", "barreiras_atitudinais", [
             "Identificado comportamento de infantilização",
             "Direcionado a pessoa com deficiência"
