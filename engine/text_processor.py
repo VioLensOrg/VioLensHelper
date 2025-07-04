@@ -2,7 +2,7 @@ import os
 from typing import Dict, List, Any
 import json
 
-from knowledge_base.keywords_dictionary import KEYWORDS_DICT, FIELDS_QUESTIONS
+from knowledge_base.keywords_dictionary import KEYWORDS_DICT
 from utils.groq_integration import GroqAPI
 
 from engine.facts import (

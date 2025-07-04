@@ -56,15 +56,6 @@ CONCEPT_MAPPING = {
         "coercao_sexual": {
             "violencia_sexual": {"estupro": CRITERION_WEIGHTS["behavior"]["critical"]}
         },
-        "comentarios_sobre_peso": {
-            "gordofobia": {"discriminacao_direta": CRITERION_WEIGHTS["behavior"]["critical"]}
-        },
-        "piadas_sobre_peso": {
-            "gordofobia": {"discriminacao_direta": CRITERION_WEIGHTS["behavior"]["critical"]}
-        },
-        "exclusao_por_peso": {
-            "gordofobia": {"discriminacao_estrutural": CRITERION_WEIGHTS["behavior"]["critical"]}
-        },
         "negacao_acessibilidade": {
             "capacitismo": {"barreiras_fisicas": CRITERION_WEIGHTS["behavior"]["critical"]}
         },
@@ -173,7 +164,6 @@ CONCEPT_MAPPING = {
         "ambiente_social": {
             "microagressoes": {"estereotipos": CRITERION_WEIGHTS["context"]["relevant"]},
             "violencia_sexual": {"importunacao_sexual": CRITERION_WEIGHTS["context"]["supporting"]},
-            "gordofobia": {"discriminacao_direta": CRITERION_WEIGHTS["context"]["relevant"]}
         },
         "local_culto_religioso": {
             "discriminacao_religiosa": {
@@ -218,13 +208,6 @@ CONCEPT_MAPPING = {
         },
         "aparencia_fisica": {
             "microagressoes": {"estereotipos": CRITERION_WEIGHTS["target"]["supporting"]},
-            "gordofobia": {"discriminacao_direta": CRITERION_WEIGHTS["target"]["critical"]}
-        },
-        "peso_corporal": {
-            "gordofobia": {
-                "discriminacao_direta": CRITERION_WEIGHTS["target"]["critical"],
-                "discriminacao_estrutural": CRITERION_WEIGHTS["target"]["critical"]
-            }
         },
         "origem_regional": {
             "microagressoes": {"estereotipos": CRITERION_WEIGHTS["target"]["supporting"]},
@@ -273,7 +256,6 @@ CONCEPT_MAPPING = {
         },
         "impacto_participacao": {
             "microagressoes": {"interrupcoes_constantes": CRITERION_WEIGHTS["impact"]["moderate"]},
-            "gordofobia": {"discriminacao_estrutural": CRITERION_WEIGHTS["impact"]["strong"]}
         },
         "danos_emocionais": {
             "microagressoes": {"comentarios_saude_mental": CRITERION_WEIGHTS["impact"]["strong"]},
@@ -340,7 +322,6 @@ KEYWORD_DESCRIPTIONS = {
     "ato_obsceno": "Identificada quando há comportamentos ou expressões obscenas.",
     "coercao_sexual": "Identificada quando há coerção para relações sexuais.",
     "comentarios_sobre_peso": "Identificada quando há comentários negativos ou piadas sobre o peso de alguém.",
-    "exclusao_por_peso": "Identificada quando alguém é excluído ou discriminado com base no peso.",
     "negacao_acessibilidade": "Identificada quando há barreiras físicas ou atitudinais que impedem o acesso de pessoas com deficiência.",
     "infantilizacao": "Identificada quando alguém é tratado de forma condescendente ou infantilizada.",
     "cyberbullying": "Identificada quando há comportamentos de bullying online.",

@@ -190,35 +190,6 @@ class DiscriminationRulesMixin:
             "Identificado impedimento de práticas religiosas"
         ])
 
-    # GORDOFOBIA
-    @Rule(
-        ProcessingPhase(phase="analysis"),
-        OR(
-            ViolenceBehavior(behavior_type="comentarios_sobre_peso"),
-            ViolenceBehavior(behavior_type="piadas_sobre_peso"),
-            KeywordFact(category="action_type", keyword="comentarios_sobre_peso"),
-            KeywordFact(category="action_type", keyword="piadas_sobre_peso")
-        )
-    )
-    def detect_gordofobia_direta(self):
-        """Detecta gordofobia direta."""
-        self.create_classification("gordofobia", "discriminacao_direta", [
-            "Identificados comentários ou piadas sobre peso/corpo"
-        ])
-
-    @Rule(
-        ProcessingPhase(phase="analysis"),
-        OR(
-            ViolenceBehavior(behavior_type="exclusao_por_peso"),
-            KeywordFact(category="action_type", keyword="exclusao_por_peso")
-        )
-    )
-    def detect_gordofobia_estrutural(self):
-        """Detecta gordofobia estrutural."""
-        self.create_classification("gordofobia", "discriminacao_estrutural", [
-            "Identificada exclusão baseada em peso/aparência física"
-        ])
-
     # CAPACITISMO
     @Rule(
         ProcessingPhase(phase="analysis"),
