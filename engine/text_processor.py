@@ -83,7 +83,7 @@ class TextProcessor:
         return result
     
     def create_experta_facts(self, text: str) -> List[Any]:
-        print(f"\n🔍 Analisando relato (primeiros 100 caracteres): {text[:100]}{'...' if len(text) > 100 else ''}")
+        print(f"\nAnalisando relato (primeiros 100 caracteres): {text[:100]}{'...' if len(text) > 100 else ''}")
         
         # Lista para armazenar os fatos que serão retornados
         facts = [TextRelato(text=text, processed=True)]
@@ -97,7 +97,7 @@ class TextProcessor:
                 keywords = response["identified_keywords"]
                 
                 # Mostrar resumo das palavras-chave identificadas
-                print(f"✅ Elementos identificados no relato:")
+                print(f"Elementos identificados no relato:")
                 for category, values in keywords.items():
                     if values:
                         category_name = {
@@ -110,7 +110,7 @@ class TextProcessor:
                         }.get(category, category)
                         print(f"   • {category_name}: {', '.join(values)}")
                 
-                print(f"\n📝 Criando fatos para o motor de inferência...")
+                print(f"\nCriando fatos para o motor de inferência...")
                 
                 # Converter resposta em fatos Experta
                 for category, values in keywords.items():
@@ -139,11 +139,11 @@ class TextProcessor:
                             impact_fact = ImpactFact(type=keyword)
                             facts.append(impact_fact)
                 
-                print(f"✅ {len(facts)} fatos criados para análise")
+                print(f"{len(facts)} fatos criados para análise")
             else:
-                print("⚠️ Nenhum elemento relevante identificado no texto")
+                print("Nenhum elemento relevante identificado no texto")
         
         except Exception as e:
-            print(f"❌ Erro durante análise: {str(e)}")
+            print(f"Erro durante análise: {str(e)}")
         
         return facts

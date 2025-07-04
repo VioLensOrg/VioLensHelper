@@ -93,7 +93,6 @@ class BaseViolenceEngine(KnowledgeEngine):
                 explanation=self.explanations.get(key, []).copy()  # Usar a lista completa e atual
             )
         )
-        print(f"Criado {key}")
     
     def run(self, steps=None):
         """
@@ -115,7 +114,6 @@ class BaseViolenceEngine(KnowledgeEngine):
             if not self.agenda:
                 break
         
-        print("Finalizando análise e consolidando resultados...")
         self.consolidate_results()
 
     def consolidate_results(self):

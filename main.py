@@ -117,7 +117,8 @@ elif st.session_state.state == 'result':
                 title = VIOLENCE_TYPES[vtype]['nome'] if 'nome' in VIOLENCE_TYPES[vtype] else vtype.replace('_', ' ').title()
             
             # Exibir resultado (sem mostrar confiança)
-            with st.expander(f"{title}"):
+            st.markdown(f"### {title}")
+            with st.expander("Ver detalhes"):
                 # Exibir descrição
                 if subtype and "subtipos" in VIOLENCE_TYPES[vtype] and subtype in VIOLENCE_TYPES[vtype]["subtipos"]:
                     st.write(VIOLENCE_TYPES[vtype]["subtipos"][subtype]["definicao"])

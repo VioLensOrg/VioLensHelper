@@ -28,11 +28,7 @@ class ViolenceRules(
     """
     
     def __init__(self):
-        """
-        Inicializa o motor de regras completo.
-        """
         super().__init__()
-        print("🔧 Motor de regras ViolenceRules inicializado com todos os módulos")
     
     def get_loaded_modules(self):
         """
