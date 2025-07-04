@@ -3,13 +3,9 @@ from experta.engine import KnowledgeEngine
 from experta import Fact
 from experta.rule import Rule
 from experta.deffacts import DefFacts
-from experta import TEST, AS, OR, NOT, AND
-from typing import Dict, List, Any, Optional
 
 from ..facts import (
-    TextRelato, KeywordFact, ViolenceBehavior, ContextFact, FrequencyFact,
-    TargetFact, RelationshipFact, ImpactFact, ViolenceClassification,
-    AnalysisResult, ProcessingPhase
+    ViolenceClassification, AnalysisResult, ProcessingPhase
 )
 
 from knowledge_base.violence_types import VIOLENCE_TYPES

@@ -37,8 +37,8 @@ class ViolenceClassification(Fact):
     Representa o resultado da classificação de um tipo de violência.
     """
     violence_type = Field(str, mandatory=True)  # Tipo principal de violência
-    subtype = Field(str, default="")           # Subtipo (se aplicável)
-    explanation = Field(list, default=[])      # Lista de explicações
+    subtype = Field(str, default="")            # Subtipo (se aplicável)
+    explanation = Field(list, default=[])       # Lista de explicações
 
 class AnalysisResult(Fact):
     """

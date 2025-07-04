@@ -318,7 +318,7 @@ KEYWORD_DESCRIPTIONS = {
     "natureza_sexual_nao_consentido": "Identificada quando há comentários ou comportamentos de natureza sexual sem consentimento.",
     "contato_fisico_nao_consentido": "Identificada quando há contato físico sem consentimento.",
     "ato_obsceno": "Identificada quando há comportamentos ou expressões obscenas.",
-    "coercao_sexual": "Identificada quando há coerção para relações sexuais.",
+    "coercao_sexual": "Identificada quando a vitima é claramente forçada a ter relações sexuais, ou seja, um estupro.",
     "comentarios_sobre_peso": "Identificada quando há comentários negativos ou piadas sobre o peso de alguém.",
     "negacao_acessibilidade": "Identificada quando há barreiras físicas ou atitudinais que impedem o acesso de pessoas com deficiência.",
     "infantilizacao": "Identificada quando alguém é tratado de forma condescendente ou infantilizada.",
