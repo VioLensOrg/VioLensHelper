@@ -1,9 +1,27 @@
 import os
+import re
 import streamlit as st
 from engine.expert_system import ExpertSystem
 from knowledge_base.violence_types import VIOLENCE_TYPES
+from knowledge_base.keyword_aliases import KEYWORD_ALIASES
 
-# Inicializar o sistema especialista
+def apply_aliases_to_text(text: str) -> str:
+    
+    result = text
+    
+    # Ordenar as palavras-chave por tamanho (maiores primeiro) para evitar substituições parciais
+    sorted_keywords = sorted(KEYWORD_ALIASES.items(), key=lambda x: len(x[0]), reverse=True)
+    
+    for keyword, alias in sorted_keywords:
+        # Usar boundary para palavras com letras/números, ou posição para caracteres especiais
+        if keyword.replace("_", "").isalnum():
+            pattern = rf'\b{re.escape(keyword)}\b'
+        else:
+            pattern = rf'{re.escape(keyword)}'
+        result = re.sub(pattern, alias, result, flags=re.IGNORECASE)
+    
+    return result
+
 @st.cache_resource
 def get_expert_system():
     if 'expert_system' not in st.session_state:
@@ -19,7 +37,6 @@ st.set_page_config(
 )
 st.title("Sistema Especialista de Identificação de Violência")
 
-# Inicializar variáveis de estado da sessão
 if 'state' not in st.session_state:
     st.session_state.state = 'initial'
 if 'keywords' not in st.session_state:
@@ -35,7 +52,6 @@ if 'results' not in st.session_state:
 
 expert_system = get_expert_system()
 
-# Interface do usuário baseada no estado atual
 if st.session_state.state == 'initial':
     st.subheader("Relate a situação ocorrida")
     
@@ -50,10 +66,8 @@ if st.session_state.state == 'initial':
             st.error("Por favor, forneça um relato mais detalhado para análise.")
         else:
             with st.spinner("Analisando seu relato..."):
-                # Processar o texto do usuário através do sistema especialista
                 result = expert_system.analyze_text(user_text)
                 
-                # Atualizar a interface com os resultados
                 st.session_state.results = result["classifications"]
                 st.session_state.state = 'result'
                 st.rerun()
@@ -61,7 +75,6 @@ if st.session_state.state == 'initial':
 elif st.session_state.state == 'follow_up':
     st.subheader("Precisamos de mais algumas informações")
     
-    # Mostrar as palavras-chave já identificadas
     if st.session_state.keywords:
         st.write("Com base no seu relato, identificamos:")
         for category, keywords in st.session_state.keywords.items():
@@ -69,7 +82,6 @@ elif st.session_state.state == 'follow_up':
                 category_name = category.replace("_", " ").capitalize()
                 st.write(f"- **{category_name}**: {', '.join(keywords)}")
     
-    # Mostrar as perguntas complementares
     st.write("Para uma análise mais precisa, por favor responda:")
     for question in st.session_state.questions:
         st.write(f"- {question}")
@@ -84,12 +96,10 @@ elif st.session_state.state == 'follow_up':
         if follow_up_text:
             with st.spinner("Processando suas respostas..."):
                 # Processar a resposta complementar através do sistema especialista
-                combined_text = follow_up_text  # Você pode combinar com o texto original se necessário
+                combined_text = follow_up_text 
                 
-                # Usar o sistema especialista para analisar o texto complementar
                 result = expert_system.analyze_text(combined_text)
                 
-                # Atualizar a interface com os resultados
                 st.session_state.results = result["classifications"]
                 st.session_state.state = 'result'
                 st.rerun()
@@ -105,47 +115,49 @@ elif st.session_state.state == 'result':
         st.success("Identificamos possíveis tipos de violência:")
         
         for r in st.session_state.results:
-            # Obter informações mais detalhadas do tipo/subtipo
             vtype = r["violence_type"]
             subtype = r.get("subtype")
             
-            # Determinar o título a ser exibido
             if subtype:
                 subtype_formatted = subtype.replace("_", " ").capitalize()
                 title = f"{subtype_formatted} ({vtype.replace('_', ' ').title()})"
             else:
                 title = VIOLENCE_TYPES[vtype]['nome'] if 'nome' in VIOLENCE_TYPES[vtype] else vtype.replace('_', ' ').title()
             
-            # Exibir resultado (sem mostrar confiança)
-            st.markdown(f"### {title}")
+            st.markdown(f"#### {title}")
             with st.expander("Ver detalhes"):
-                # Exibir descrição
                 if subtype and "subtipos" in VIOLENCE_TYPES[vtype] and subtype in VIOLENCE_TYPES[vtype]["subtipos"]:
                     st.write(VIOLENCE_TYPES[vtype]["subtipos"][subtype]["definicao"])
                 else:
                     st.write(VIOLENCE_TYPES[vtype]["definicao"])
                 
-                # Exibir explicações se disponíveis
                 if "explanation" in r and r["explanation"]:
                     st.subheader("Por que identificamos este tipo:")
-                    # Corrigir a formatação das explicações
+                    
                     for i, exp in enumerate(r["explanation"]):
-                        if exp.strip():  # Verificar se a explicação não está vazia
-                            # Remover pontos desnecessários e formatar corretamente
+                        if exp.strip():
                             clean_exp = exp.strip()
                             if clean_exp.startswith("- "):
                                 clean_exp = clean_exp[2:]
-                            st.write(f"• {clean_exp}")
+                            
+                            # Verificar se é um cabeçalho (como "Como chegamos a esta conclusão:")
+                            if clean_exp.endswith(":") and len(clean_exp.split()) <= 6:
+                                # É um cabeçalho - formatar como subseção SEM bullet point
+                                st.markdown(f"##### {clean_exp}")
+                                # Adicionar uma linha em branco para separação visual
+                                st.write("")
+                            else:
+                                # É um item da lista - aplicar aliases e mostrar como bullet point
+                                formatted_exp = apply_aliases_to_text(clean_exp)
+                                st.write(f"• {formatted_exp}")
                 
-                # Exibir recomendações se disponíveis
                 if "recomendacoes" in VIOLENCE_TYPES[vtype]:
                     st.subheader("Recomendações:")
                     for rec in VIOLENCE_TYPES[vtype]["recomendacoes"]:
                         st.write(f"• {rec}")
-    
-    # Opção para reiniciar
+
+
     if st.button("Iniciar Nova Análise"):
-        # Resetar todos os estados
         for key in ['state', 'keywords', 'questions', 'missing_fields', 'partial_facts', 'results', 'expert_system']:
             if key in st.session_state:
                 del st.session_state[key]
