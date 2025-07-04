@@ -21,7 +21,6 @@ class HarassmentRulesMixin:
         )
     )
     def detect_perseguicao(self):
-        """Detecta perseguição."""
         facts_used = {}
         
         # Verificar comportamentos identificados
@@ -100,7 +99,6 @@ class HarassmentRulesMixin:
         )
     )
     def detect_abuso_psicologico(self):
-        """Detecta abuso psicológico."""
         self.create_classification("abuso_psicologico", None, [
             "Identificado comportamento de ameaça, humilhação ou constrangimento"
         ])
@@ -118,7 +116,6 @@ class HarassmentRulesMixin:
         )
     )
     def detect_abuso_psicologico_hierarquico(self):
-        """Detecta abuso psicológico em relação hierárquica."""
         facts_used = {}
         
         # Verificar comportamentos identificados

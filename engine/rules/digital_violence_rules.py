@@ -19,7 +19,6 @@ class DigitalViolenceRulesMixin:
         )
     )
     def detect_cyberbullying(self):
-        """Detecta cyberbullying."""
         self.create_classification("violencia_digital", "cyberbullying", [
             "Identificado comportamento de cyberbullying"
         ])
@@ -32,7 +31,6 @@ class DigitalViolenceRulesMixin:
         )
     )
     def detect_exposicao_nao_consentida(self):
-        """Detecta exposição não consentida de conteúdo."""
         facts_used = {}
         
         # Verificar comportamentos identificados
