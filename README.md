@@ -5,4 +5,9 @@
 
 ## Sobre
 Projeto sobre um Sistema Expecialista que identifica os tipos de violencias relatados por um usuario atráves de um input de texto.
-Utiliza Groq para interpretação de linguagem natural e um motor de inferência utilizando a biblioteca Experta para a identificação dos tipos de violencias
+Utiliza Groq para interpretação de linguagem natural e um motor de inferência utilizando a biblioteca Experta para a identificação dos tipos de violencias.
+
+## Tecnologias Usadas
+
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" height="40" alt="java logo"/>
+* Versão 3.8.10

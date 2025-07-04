@@ -5,7 +5,6 @@ from typing import Dict, Any
 
 
 class CriterionWeights:
-    """Classe para gerenciar pesos dos critérios de avaliação."""
     
     BEHAVIOR = {
         "critical": 10,    # Comportamento crítico/determinante
