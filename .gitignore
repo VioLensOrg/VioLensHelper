@@ -141,6 +141,8 @@ env.bak/
 venv.bak/
 venv38/
 venv38
+venv-novo/
+venv-novo
 
 # Spyder project settings
 .spyderproject

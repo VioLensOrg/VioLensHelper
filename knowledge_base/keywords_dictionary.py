@@ -323,6 +323,76 @@ CONCEPT_MAPPING = {
     }
 }
 
+KEYWORD_DESCRIPTIONS = {
+    # action_type
+    "interrupcao": "Identificada quando há dúvidas explícitas sobre a competência da pessoa baseadas em características pessoais",
+    "questionamento_capacidade": "Identificada quando há comentários ou questionamentos sobre a capacidade de alguém.",
+    "comentarios_saude_mental": "Identificada quando há comentários ou piadas sobre a saúde mental de alguém.",
+    "piadas_estereotipos": "Identificada quando há piadas ou comentários que reforçam estereótipos negativos.",
+    "perseguicao": "Identificada quando há comportamentos de vigilância ou perseguição.",
+    "exclusao": "Identificada quando há exclusão de alguém de atividades ou grupos.",
+    "ameaca": "Identificada quando há ameaças explícitas ou implícitas.",
+    "constrangimento": "Identificada quando alguém é colocado em uma situação embaraçosa ou desconfortável.",
+    "humilhacao": "Identificada quando alguém é tratado de forma desrespeitosa ou degradante.",
+    "pressao_tarefas": "Identificada quando há pressão excessiva para cumprir tarefas ou obrigações.",
+    "natureza_sexual_nao_consentido": "Identificada quando há comentários ou comportamentos de natureza sexual sem consentimento.",
+    "contato_fisico_nao_consentido": "Identificada quando há contato físico sem consentimento.",
+    "ato_obsceno": "Identificada quando há comportamentos ou expressões obscenas.",
+    "coercao_sexual": "Identificada quando há coerção para relações sexuais.",
+    "comentarios_sobre_peso": "Identificada quando há comentários negativos ou piadas sobre o peso de alguém.",
+    "exclusao_por_peso": "Identificada quando alguém é excluído ou discriminado com base no peso.",
+    "negacao_acessibilidade": "Identificada quando há barreiras físicas ou atitudinais que impedem o acesso de pessoas com deficiência.",
+    "infantilizacao": "Identificada quando alguém é tratado de forma condescendente ou infantilizada.",
+    "cyberbullying": "Identificada quando há comportamentos de bullying online.",
+    "exposicao_conteudo": "Identificada quando há exposição não consensual de conteúdo pessoal ou íntimo.",
+    "zombaria_religiao": "Identificada quando há zombarias ou ofensas relacionadas à religião de alguém.",
+    "impedimento_pratica_religiosa": "Identificada quando há impedimentos para a prática religiosa de alguém.",
+    "discriminacao_origem": "Identificada quando há discriminação com base na origem de alguém, seja regional ou estrangeira.",
+    "piada_sotaque": "Identificada quando há piadas ou comentários negativos sobre o sotaque de alguém.",
+    "insulto": "Identificada quando há insultos ou ofensas direcionadas a alguém.",
+    "insulto_racial": "Identificada quando há insultos ou ofensas com base na raça ou etnia de alguém.",
+    # frequency
+    "unica_vez": "Identificada quando o comportamento ocorre uma única vez.",
+    "algumas_vezes": "Identificada quando o comportamento ocorre algumas vezes, mas não de forma recorrente.",
+    "repetidamente": "Identificada quando o comportamento ocorre de forma repetitiva, mas não contínua.",
+    "continuamente": "Identificada quando o comportamento ocorre de forma contínua.",
+    # context
+    "sala_aula": "Identificada quando o comportamento ocorre em um ambiente de sala de aula.",
+    "ambiente_administrativo": "Identificada quando o comportamento ocorre em um ambiente administrativo.",
+    "local_trabalho": "Identificada quando o comportamento ocorre em um ambiente de trabalho.",
+    "espaco_publico_campus": "Identificada quando o comportamento ocorre em um espaço público dentro do campus.",
+    "ambiente_online": "Identificada quando o comportamento ocorre em um ambiente online, como redes sociais ou plataformas digitais.",
+    "evento_academico": "Identificada quando o comportamento ocorre durante um evento acadêmico, como palestras ou conferências.",
+    "ambiente_social": "Identificada quando o comportamento ocorre em um ambiente social, como festas ou encontros informais.",
+    "local_culto_religioso": "Identificada quando o comportamento ocorre em um local de culto religioso.",
+    # target
+    "genero": "Identificada quando o alvo é baseado no gênero de alguém.",
+    "orientacao_sexual": "Identificada quando o alvo é baseado na orientação sexual de alguém.",
+    "raca_etnia": "Identificada quando o alvo é baseado na raça ou etnia de alguém.",
+    "condicao_financeira": "Identificada quando o alvo é baseado na condição financeira de alguém.",
+    "deficiencia": "Identificada quando o alvo é baseado na deficiência de alguém.",
+    "aparencia_fisica": "Identificada quando o alvo é baseado na aparência física de alguém.",
+    "origem_regional": "Identificada quando o alvo é baseado na origem regional de alguém.",
+    "origem_estrangeira": "Identificada quando o alvo é baseado na origem estrangeira de alguém.",
+    "desempenho_academico": "Identificada quando o alvo é baseado no desempenho acadêmico de alguém.",
+    "religiao": "Identificada quando o alvo é baseado na religião de alguém.",
+    # relationship
+    "relacao_hierarquica": "Identificada quando o relacionamento é baseado em uma hierarquia de poder.",
+    "colega": "Identificada quando o relacionamento é baseado na condição de colega.",
+    "desconhecido": "Identificada quando o relacionamento é com alguém desconhecido.",
+    "ex_relacionamento": "Identificada quando o relacionamento é com um ex-parceiro ou ex-parceira.",
+    # impact
+    "constrangimento": "Identificada quando o comportamento causa constrangimento a alguém.",
+    "impacto_participacao": "Identificada quando o comportamento impacta a participação de alguém.",
+    "danos_emocionais": "Identificada quando o comportamento causa danos emocionais a alguém.",
+    "limitacao_liberdade": "Identificada quando o comportamento causa limitação da liberdade de alguém.",
+    "prejuizo_desempenho": "Identificada quando o comportamento causa prejuízo no desempenho de alguém.",
+    "medo_inseguranca": "Identificada quando o comportamento causa medo ou insegurança em alguém.",
+    "violacao_privacidade": "Identificada quando o comportamento causa violação da privacidade de alguém.",
+    "limitacao_acesso": "Identificada quando o comportamento causa limitação de acesso a recursos ou oportunidades para alguém.",
+    "discriminacao_identidade": "Identificada quando o comportamento causa discriminação com base na identidade de alguém.",
+}
+
 def extract_keywords_from_violence_types():
     """
     Extrai palavras-chave do dicionário VIOLENCE_TYPES.
@@ -397,7 +467,7 @@ def build_keywords_dictionary():
         ],
         "frequency": [
             "unica_vez", "algumas_vezes", "repetidamente", "continuamente"
-        ],
+        ],"interrupcao": "Identificada quando há padrão de cortar a fala de alguém de forma repetitiva",
         "context": [
             "sala_aula", "ambiente_administrativo", "local_trabalho",
             "espaco_publico_campus", "ambiente_online", "evento_academico",
@@ -419,16 +489,6 @@ def build_keywords_dictionary():
     }
     
     return keywords
-
-# Dicionário de perguntas para obter informações faltantes
-FIELDS_QUESTIONS = {
-    "action_type": "Poderia descrever o comportamento ou ação específica que ocorreu?",
-    "frequency": "Com que frequência isso aconteceu? Foi uma única vez, algumas vezes, repetidamente ou continuamente?",
-    "context": "Em qual ambiente ou local isso aconteceu?",
-    "target": "Você acredita que a ação foi direcionada a alguma característica específica sua?",
-    "relationship": "Qual é a sua relação com a pessoa que cometeu essa ação?",
-    "impact": "Como isso te afetou? Quais foram os impactos deste comportamento para você?"
-}
 
 # Construir e exportar o dicionário de palavras-chave
 KEYWORDS_DICT = build_keywords_dictionary()
