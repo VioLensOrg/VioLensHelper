@@ -164,44 +164,45 @@ class ViolenceTypeManager:
         
         return [self._report_channels[name] for name in channel_names if name in self._report_channels]
 
-    def to_dict_format(self) -> Dict:
-        """Converte para o formato de dicionário utilizado pelo sistema."""
-        result = {}
-        
-        for vtype_name, vtype in self._violence_types.items():
-            vtype_dict = {
-                "nome": vtype_name.replace('_', ' ').title(),
-                "definicao": vtype.definition,
-                "gravidade": vtype.severity.value,
-                "palavras_chave": vtype.keywords,
-                "canais_denuncia": vtype.report_channels,
-                "recomendacoes": vtype.recommendations
+def to_dict_format(self) -> Dict:
+    """Converte para o formato de dicionário utilizado pelo sistema."""
+    def _subtype_to_dict(subtype):
+        subtype_dict = {
+            "definicao": subtype.definition,
+            "palavras_chave": subtype.keywords,
+        }
+        if getattr(subtype, "behaviors", None):
+            subtype_dict["comportamentos"] = subtype.behaviors
+        if getattr(subtype, "severity", None):
+            subtype_dict["gravidade"] = subtype.severity.value
+        if getattr(subtype, "report_channels", None):
+            subtype_dict["canais_denuncia"] = subtype.report_channels
+        if getattr(subtype, "recommendations", None):
+            subtype_dict["recomendacoes"] = subtype.recommendations
+        return subtype_dict
+
+    def _type_to_dict(vtype_name, vtype):
+        vtype_dict = {
+            "nome": vtype_name.replace('_', ' ').title(),
+            "definicao": vtype.definition,
+            "gravidade": vtype.severity.value,
+            "palavras_chave": vtype.keywords,
+            "canais_denuncia": vtype.report_channels,
+            "recomendacoes": vtype.recommendations
+        }
+        if getattr(vtype, "common_targets", None):
+            vtype_dict["alvos_comuns"] = vtype.common_targets
+        if vtype.subtypes:
+            vtype_dict["subtipos"] = {
+                subtype_name: _subtype_to_dict(subtype)
+                for subtype_name, subtype in vtype.subtypes.items()
             }
-            
-            if hasattr(vtype, 'common_targets') and vtype.common_targets:
-                vtype_dict["alvos_comuns"] = vtype.common_targets
-            
-            if vtype.subtypes:
-                vtype_dict["subtipos"] = {}
-                for subtype_name, subtype in vtype.subtypes.items():
-                    subtype_dict = {
-                        "definicao": subtype.definition,
-                        "palavras_chave": subtype.keywords,
-                    }
-                    if subtype.behaviors:
-                        subtype_dict["comportamentos"] = subtype.behaviors
-                    if subtype.severity:
-                        subtype_dict["gravidade"] = subtype.severity.value
-                    if subtype.report_channels:
-                        subtype_dict["canais_denuncia"] = subtype.report_channels
-                    if subtype.recommendations:
-                        subtype_dict["recomendacoes"] = subtype.recommendations
-                    
-                    vtype_dict["subtipos"][subtype_name] = subtype_dict
-            
-            result[vtype_name] = vtype_dict
-        
-        return result
+        return vtype_dict
+
+    return {
+        vtype_name: _type_to_dict(vtype_name, vtype)
+        for vtype_name, vtype in self._violence_types.items()
+    }
 
 # Funções de compatibilidade para a refatoração
 _violence_manager = ViolenceTypeManager()

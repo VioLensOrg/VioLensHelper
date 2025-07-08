@@ -371,30 +371,30 @@ KEYWORD_DESCRIPTIONS = {
     "discriminacao_identidade": "Identificada quando o comportamento causa discriminação com base na identidade de alguém.",
 }
 
-def extract_keywords_from_violence_types():
+def extract_keywords_from_violence_types() -> dict:
     """
     Extrai palavras-chave do dicionário VIOLENCE_TYPES.
+    Retorna um dicionário organizado por categoria.
     """
     keywords = {
-        "action_type": [],
-        "behavior": []  # Para comportamentos específicos
+        "action_type": set(),
+        "behavior": set()
     }
-    
-    # Extrair palavras-chave de cada tipo de violência
-    for vtype, vdata in VIOLENCE_TYPES.items():
-        # Extrair do tipo principal
-        if "palavras_chave" in vdata:
-            keywords["action_type"].extend(vdata["palavras_chave"])
-        
-        # Extrair dos subtipos
-        if "subtipos" in vdata:
-            for subtype, subdata in vdata["subtipos"].items():
-                if "palavras_chave" in subdata:
-                    keywords["action_type"].extend(subdata["palavras_chave"])
-                if "comportamentos" in subdata:
-                    keywords["behavior"].extend(subdata["comportamentos"])
-    
-    return keywords
+
+    def _add_keywords(target_set, items):
+        if items:
+            target_set.update(items)
+
+    for vtype_data in VIOLENCE_TYPES.values():
+        # Tipo principal
+        _add_keywords(keywords["action_type"], vtype_data.get("palavras_chave"))
+        # Subtipos
+        for subtype_data in vtype_data.get("subtipos", {}).values():
+            _add_keywords(keywords["action_type"], subtype_data.get("palavras_chave"))
+            _add_keywords(keywords["behavior"], subtype_data.get("comportamentos"))
+
+    # Converter sets para listas ordenadas
+    return {k: sorted(list(v)) for k, v in keywords.items()}
 
 def extract_keywords_from_concept_mapping():
     """
