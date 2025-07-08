@@ -88,7 +88,7 @@ class BaseViolenceEngine(KnowledgeEngine):
         Executa o motor em modo controlado por fases.
         """
         print("\nIniciando análise com motor de inferência...")
-                
+
         # Limitar o número máximo de iterações para evitar loops infinitos
         max_iterations = 100
         iteration = 0
@@ -142,7 +142,8 @@ class BaseViolenceEngine(KnowledgeEngine):
             )
         )
 
-        print(f"\nAnálise concluída:")
+        print("\nAnálise concluída:")
+
         if report_multiple:
             print(f"   • {len(all_classifications)} tipos de violência identificados")
             for i, cls in enumerate(all_classifications, 1):
@@ -171,63 +172,58 @@ class BaseViolenceEngine(KnowledgeEngine):
         super().reset()
         print("Motor de regras reiniciado completamente")
 
-    def format_detailed_explanation(self, rule_name, facts_used, conclusion, reasoning=None):
+    def format_detailed_explanation(self, facts_used, conclusion, reasoning=None):
         """
         Gera uma explicação detalhada em linguagem natural baseada nos fatos que ativaram a regra.
-        
-        Args:
-            rule_name: Nome da regra ativada
-            facts_used: Dicionário dos fatos relevantes que ativaram a regra
-            conclusion: A conclusão alcançada pela regra
-            reasoning: Explicação adicional do raciocínio (opcional)
         """
-        basic_explanation = []
-        detailed_explanation = []
-        
-        # Criar explicação básica
-        basic_explanation.append(f"Identificado: {conclusion}")
-        
-        # Construir uma explicação detalhada baseada nos fatos utilizados
-        detailed_explanation.append(f"**Como chegamos a esta conclusão:**")
-        
-        # Explicar os comportamentos identificados
+        basic_explanation = [f"Identificado: {conclusion}"]
+        detailed_explanation = ["**Como chegamos a esta conclusão:**"]
+
+        # Adiciona cada parte da explicação usando funções auxiliares
+        self._append_behavior_explanation(detailed_explanation, facts_used)
+        self._append_context_explanation(detailed_explanation, facts_used)
+        self._append_frequency_explanation(detailed_explanation, facts_used)
+        self._append_target_explanation(detailed_explanation, facts_used)
+        self._append_relationship_explanation(detailed_explanation, facts_used)
+        self._append_impact_explanation(detailed_explanation, facts_used)
+
+        if reasoning:
+            detailed_explanation.append(f"\n**Por que isso é importante:** {reasoning}")
+
+        return basic_explanation + detailed_explanation
+
+    def _append_behavior_explanation(self, explanation_list, facts_used):
         if 'behavior' in facts_used:
             behaviors = facts_used['behavior']
             behavior_text = ", ".join(behaviors) if len(behaviors) > 1 else behaviors[0]
-            detailed_explanation.append(f"- Identificamos em seu relato comportamentos de {behavior_text}")
-        
-        # Explicar o contexto, se houver
+            explanation_list.append(f"- Identificamos em seu relato comportamentos de {behavior_text}")
+
+    def _append_context_explanation(self, explanation_list, facts_used):
         if 'context' in facts_used:
             contexts = facts_used['context']
             context_text = ", ".join(contexts) if len(contexts) > 1 else contexts[0]
-            detailed_explanation.append(f"- O incidente ocorreu em um contexto de {context_text}")
-        
-        # Explicar a frequência, se houver
+            explanation_list.append(f"- O incidente ocorreu em um contexto de {context_text}")
+
+    def _append_frequency_explanation(self, explanation_list, facts_used):
         if 'frequency' in facts_used:
             frequencies = facts_used['frequency']
             freq_text = ", ".join(frequencies) if len(frequencies) > 1 else frequencies[0]
-            detailed_explanation.append(f"- O comportamento ocorre {freq_text}")
-        
-        # Explicar as características do alvo, se houver
+            explanation_list.append(f"- O comportamento ocorre {freq_text}")
+
+    def _append_target_explanation(self, explanation_list, facts_used):
         if 'target' in facts_used:
             targets = facts_used['target']
             target_text = ", ".join(targets) if len(targets) > 1 else targets[0]
-            detailed_explanation.append(f"- O comportamento foi direcionado com base em {target_text}")
-        
-        # Explicar o relacionamento, se houver
+            explanation_list.append(f"- O comportamento foi direcionado com base em {target_text}")
+
+    def _append_relationship_explanation(self, explanation_list, facts_used):
         if 'relationship' in facts_used:
             relationships = facts_used['relationship']
             rel_text = ", ".join(relationships) if len(relationships) > 1 else relationships[0]
-            detailed_explanation.append(f"- Existe uma relação de {rel_text} entre as partes envolvidas")
-        
-        # Explicar o impacto, se houver
+            explanation_list.append(f"- Existe uma relação de {rel_text} entre as partes envolvidas")
+
+    def _append_impact_explanation(self, explanation_list, facts_used):
         if 'impact' in facts_used:
             impacts = facts_used['impact']
             impact_text = ", ".join(impacts) if len(impacts) > 1 else impacts[0]
-            detailed_explanation.append(f"- O comportamento causou {impact_text}")
-        
-        # Adicionar raciocínio específico se fornecido
-        if reasoning:
-            detailed_explanation.append(f"\n**Por que isso é importante:** {reasoning}")
-        
-        return basic_explanation + detailed_explanation
+            explanation_list.append(f"- O comportamento causou {impact_text}")
