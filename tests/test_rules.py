@@ -3,7 +3,7 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from experta import Fact, Rule, KnowledgeEngine
+from experta import Rule, KnowledgeEngine
 from engine.facts import ViolenceBehavior, FrequencyFact
 
 class SimpleEngine(KnowledgeEngine):
@@ -30,11 +30,11 @@ engine.reset()
 print("\n📌 Declarando fatos:")
 behavior = ViolenceBehavior(behavior_type="interrupcao")
 engine.declare(behavior)
-print(f"- Declarado: ViolenceBehavior(behavior_type='interrupcao')")
+print("- Declarado: ViolenceBehavior(behavior_type='interrupcao')")
 
 freq = FrequencyFact(value="repetidamente")
 engine.declare(freq)
-print(f"- Declarado: FrequencyFact(value='repetidamente')")
+print("- Declarado: FrequencyFact(value='repetidamente')")
 
 # Executar
 print("\n🔄 Executando motor:")

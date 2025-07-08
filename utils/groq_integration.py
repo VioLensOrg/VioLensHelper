@@ -20,9 +20,8 @@ class GroqAPI:
             "Authorization": f"Bearer {self.api_key}"
         }
     
-    def build_prompt(self, user_text: str, keywords_dict: Dict, 
-                    is_follow_up: bool = False,
-                    missing_fields: List[str] = None) -> Dict[str, str]:
+    def build_prompt(self, user_text: str, keywords_dict: Dict) -> Dict[str, str]:
+
         """
         Constrói o prompt para o Groq com instruções claras sobre as palavras-chave.
         """
@@ -123,20 +122,22 @@ class GroqAPI:
             "missing_information": response.get("missing_information", []),
             "follow_up_questions": response.get("follow_up_questions", [])[:3]  # Limitar a 3 perguntas
         }
-        
-        # Filtrar apenas palavras-chave válidas
-        if "identified_keywords" in response:
-            for category, keywords in response["identified_keywords"].items():
-                if category not in self.keyword_dict:
-                    continue  # Pular categorias não reconhecidas
-                    
-                valid_keywords = []
-                for kw in keywords:
-                    # Verificar correspondência exata
-                    if kw in self.keyword_dict[category]:
-                        valid_keywords.append(kw)
-                
-                if valid_keywords:  # Só adicionar se houver palavras-chave válidas
+
+        identified = response.get("identified_keywords", {})
+        for category, keywords in identified.items():
+            if self._is_valid_category(category):
+                valid_keywords = self._filter_valid_keywords(category, keywords)
+                if valid_keywords:
                     valid_response["identified_keywords"][category] = valid_keywords
-        
+
         return valid_response
+
+    def _is_valid_category(self, category: str) -> bool:
+        return category in self.keyword_dict
+
+    def _filter_valid_keywords(self, category: str, keywords: list) -> list:
+        valid_keywords = []
+        for kw in keywords:
+            if kw in self.keyword_dict[category]:
+                valid_keywords.append(kw)
+        return valid_keywords
