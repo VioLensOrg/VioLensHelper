@@ -58,9 +58,8 @@ class BaseViolenceEngine(KnowledgeEngine):
         return False
 
     def _add_detailed_explanations(self, key, facts_used, violence_type, subtype, reasoning):
-        rule_name = inspect.currentframe().f_back.f_code.co_name
         conclusion = f"{violence_type}" + (f" do tipo {subtype}" if subtype else "")
-        detailed_explanations = self.format_detailed_explanation(rule_name, facts_used, conclusion, reasoning)
+        detailed_explanations = self.format_detailed_explanation(facts_used, conclusion, reasoning)
         if key not in self.explanations:
             self.explanations[key] = []
         for explanation in detailed_explanations:

@@ -23,69 +23,66 @@ class TextProcessor:
 
     def create_experta_facts(self, text: str) -> List[Any]:
         print(f"\nAnalisando relato (primeiros 100 caracteres): {text[:100]}{'...' if len(text) > 100 else ''}")
-        
-        # Lista para armazenar os fatos que serão retornados
+
         facts = [TextRelato(text=text, processed=True)]
-        
+
         try:
-            # Extrair palavras-chave usando o Groq
             prompt = self.groq_api.build_prompt(text, KEYWORDS_DICT)
             response = self.groq_api.send_request(prompt)
-            
-            if "identified_keywords" in response and response["identified_keywords"]:
-                keywords = response["identified_keywords"]
-                
-                # Mostrar resumo das palavras-chave identificadas
-                print(f"Elementos identificados no relato:")
-                for category, values in keywords.items():
-                    if values:
-                        category_name = {
-                            "action_type": "Comportamentos",
-                            "frequency": "Frequência", 
-                            "context": "Local/Contexto",
-                            "target": "Características visadas",
-                            "relationship": "Relacionamento",
-                            "impact": "Impactos"
-                        }.get(category, category)
-                        print(f"   • {category_name}: {', '.join(values)}")
-                
+
+            keywords = self._extract_keywords_from_response(response)
+            self._print_keywords_summary(keywords)
+
+            if keywords:
                 print(f"\nCriando fatos para o motor de inferência...")
-                
-                # Converter resposta em fatos Experta
-                for category, values in keywords.items():
-                    for keyword in values:
-                        # Criar fato KeywordFact
-                        kw_fact = KeywordFact(category=category, keyword=keyword)
-                        facts.append(kw_fact)
-                        
-                        # Criar fatos específicos correspondentes (sem log detalhado)
-                        if category == "action_type":
-                            behavior_fact = ViolenceBehavior(behavior_type=keyword)
-                            facts.append(behavior_fact)
-                        elif category == "context":
-                            context_fact = ContextFact(location=keyword)
-                            facts.append(context_fact)
-                        elif category == "frequency":
-                            freq_fact = FrequencyFact(value=keyword)
-                            facts.append(freq_fact)
-                        elif category == "target":
-                            target_fact = TargetFact(characteristic=keyword)
-                            facts.append(target_fact)
-                        elif category == "relationship":
-                            rel_fact = RelationshipFact(type=keyword)
-                            facts.append(rel_fact)
-                        elif category == "impact":
-                            impact_fact = ImpactFact(type=keyword)
-                            facts.append(impact_fact)
-                
+                self._add_keyword_facts(facts, keywords)
                 print(f"{len(facts)} fatos criados para análise")
             else:
                 print("Nenhum elemento relevante identificado no texto")
-        
+
         except Exception as e:
             print(f"Erro durante análise: {str(e)}")
-        
+
         return facts
+
+    def _extract_keywords_from_response(self, response: Dict) -> Dict:
+        if "identified_keywords" in response and response["identified_keywords"]:
+            return response["identified_keywords"]
+        return {}
+
+    def _print_keywords_summary(self, keywords: Dict):
+        if not keywords:
+            return
+        print(f"Elementos identificados no relato:")
+        category_names = {
+            "action_type": "Comportamentos",
+            "frequency": "Frequência",
+            "context": "Local/Contexto",
+            "target": "Características visadas",
+            "relationship": "Relacionamento",
+            "impact": "Impactos"
+        }
+        for category, values in keywords.items():
+            if values:
+                category_name = category_names.get(category, category)
+                print(f"   • {category_name}: {', '.join(values)}")
+
+    def _add_keyword_facts(self, facts: List[Any], keywords: Dict):
+        for category, values in keywords.items():
+            for keyword in values:
+                facts.append(KeywordFact(category=category, keyword=keyword))
+                if category == "action_type":
+                    facts.append(ViolenceBehavior(behavior_type=keyword))
+                elif category == "context":
+                    facts.append(ContextFact(location=keyword))
+                elif category == "frequency":
+                    facts.append(FrequencyFact(value=keyword))
+                elif category == "target":
+                    facts.append(TargetFact(characteristic=keyword))
+                elif category == "relationship":
+                    facts.append(RelationshipFact(type=keyword))
+                elif category == "impact":
+                    facts.append(ImpactFact(type=keyword))
 
     # Acabamos não usando esse método, mas deixamos aqui para referência futura
     def _process_followup(self, follow_up_text: str, previous_keywords: Dict, missing_fields: List[str]) -> Dict[str, Any]:

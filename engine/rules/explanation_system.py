@@ -86,35 +86,52 @@ class ExplanationSystem:
         Formata a análise dos fatos utilizados na classificação.
         """
         analysis = []
-        
+        ExplanationSystem._append_behavior_analysis(analysis, facts_used)
+        ExplanationSystem._append_context_analysis(analysis, facts_used)
+        ExplanationSystem._append_frequency_analysis(analysis, facts_used)
+        ExplanationSystem._append_target_analysis(analysis, facts_used)
+        ExplanationSystem._append_relationship_analysis(analysis, facts_used)
+        ExplanationSystem._append_impact_analysis(analysis, facts_used)
+        return analysis
+
+    @staticmethod
+    def _append_behavior_analysis(analysis, facts_used):
         if 'behavior' in facts_used:
             behaviors = facts_used['behavior']
             behavior_text = ", ".join(behaviors) if len(behaviors) > 1 else behaviors[0]
             analysis.append(f"Comportamentos identificados: {behavior_text}")
-        
+
+    @staticmethod
+    def _append_context_analysis(analysis, facts_used):
         if 'context' in facts_used:
             contexts = facts_used['context']
             context_text = ", ".join(contexts) if len(contexts) > 1 else contexts[0]
             analysis.append(f"Contexto: {context_text}")
-        
+
+    @staticmethod
+    def _append_frequency_analysis(analysis, facts_used):
         if 'frequency' in facts_used:
             frequencies = facts_used['frequency']
             freq_text = ", ".join(frequencies) if len(frequencies) > 1 else frequencies[0]
             analysis.append(f"Frequência: {freq_text}")
-        
+
+    @staticmethod
+    def _append_target_analysis(analysis, facts_used):
         if 'target' in facts_used:
             targets = facts_used['target']
             target_text = ", ".join(targets) if len(targets) > 1 else targets[0]
             analysis.append(f"Características visadas: {target_text}")
-        
+
+    @staticmethod
+    def _append_relationship_analysis(analysis, facts_used):
         if 'relationship' in facts_used:
             relationships = facts_used['relationship']
             rel_text = ", ".join(relationships) if len(relationships) > 1 else relationships[0]
             analysis.append(f"Tipo de relacionamento: {rel_text}")
-        
+
+    @staticmethod
+    def _append_impact_analysis(analysis, facts_used):
         if 'impact' in facts_used:
             impacts = facts_used['impact']
             impact_text = ", ".join(impacts) if len(impacts) > 1 else impacts[0]
             analysis.append(f"Impactos observados: {impact_text}")
-        
-        return analysis
