@@ -59,7 +59,16 @@ def print_information(violence_type, subtype=None, confidence=None):
     if not info:
         st.warning("Informações adicionais não disponíveis.")
         return
-    
+
+    title, definition = _get_title_and_definition(info, violence_type, subtype)
+    st.markdown(f"### ✅ {title}")
+    st.markdown(f"**Definição:** {definition}")
+
+    _print_severity(info)
+    _print_contacts(info)
+    _print_recommendations(info)
+
+def _get_title_and_definition(info, violence_type, subtype):
     title = violence_type.replace('_', ' ').title()
     if subtype and subtype in info.get('subtipos', {}):
         subtype_info = info['subtipos'][subtype]
@@ -67,14 +76,14 @@ def print_information(violence_type, subtype=None, confidence=None):
         definition = subtype_info.get('definicao', info.get('definicao', ''))
     else:
         definition = info.get('definicao', '')
-    
-    st.markdown(f"### ✅ {title}")
-    st.markdown(f"**Definição:** {definition}")
-    
+    return title, definition
+
+def _print_severity(info):
     severity = info.get('gravidade')
     if severity:
         st.markdown(f"**Gravidade:** {SEVERITY_LEVEL.get(severity, '')}")
-        
+
+def _print_contacts(info):
     contacts = info.get("canais_denuncia", [])
     if contacts:
         st.markdown("**Canais de denúncia:**")
@@ -85,7 +94,8 @@ def print_information(violence_type, subtype=None, confidence=None):
                 if "contato" in contact_info:
                     st.markdown(f"  📧 Contato: `{contact_info['contato']}`")
                 st.markdown(f"  📌 Procedimento: {contact_info.get('procedimento')}")
-    
+
+def _print_recommendations(info):
     recommendations = info.get("recomendacoes", [])
     if recommendations:
         st.markdown("**Recomendações:**")
