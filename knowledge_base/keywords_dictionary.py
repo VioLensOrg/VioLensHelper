@@ -394,7 +394,7 @@ def extract_keywords_from_violence_types() -> dict:
             _add_keywords(keywords["behavior"], subtype_data.get("comportamentos"))
 
     # Converter sets para listas ordenadas
-    return {k: sorted(list(v)) for k, v in keywords.items()}
+    return {k: sorted(v) for k, v in keywords.items()}
 
 def extract_keywords_from_concept_mapping():
     """
