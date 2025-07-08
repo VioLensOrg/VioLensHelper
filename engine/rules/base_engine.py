@@ -36,56 +36,50 @@ class BaseViolenceEngine(KnowledgeEngine):
     def create_classification(self, violence_type, subtype=None, explanations=None, facts_used=None, reasoning=None):
         """
         Cria uma classificação de violência com explicações detalhadas.
-        
-        Args:
-            violence_type: Tipo principal de violência
-            subtype: Subtipo de violência (opcional)
-            explanations: Lista de explicações básicas (opcional)
-            facts_used: Dicionário dos fatos que dispararam a regra (opcional)
-            reasoning: Explicação adicional do raciocínio (opcional)
         """
-        # Garantir que subtype nunca seja None para consistência
         subtype = subtype or ""
-        
-        # Verificar se já existe uma classificação para este tipo/subtipo
+        if self._classification_exists(violence_type, subtype):
+            return
+
+        key = f"{violence_type}_{subtype}" if subtype else violence_type
+
+        if facts_used:
+            self._add_detailed_explanations(key, facts_used, violence_type, subtype, reasoning)
+        elif explanations:
+            self._add_simple_explanations(key, explanations)
+
+        self._declare_classification_fact(violence_type, subtype, key)
+
+    def _classification_exists(self, violence_type, subtype):
         for fact_id in self.get_matching_facts(ViolenceClassification):
             fact = self.facts[fact_id]
             if fact["violence_type"] == violence_type and fact["subtype"] == subtype:
-                # Já existe, não precisamos criar outra
-                return
-        
-        # Armazenar explicações, evitando duplicações
-        key = f"{violence_type}_{subtype}" if subtype else violence_type
-        
-        # Se temos fatos usados, gerar explicação detalhada
-        if facts_used:
-            rule_name = inspect.currentframe().f_back.f_code.co_name
-            conclusion = f"{violence_type}" + (f" do tipo {subtype}" if subtype else "")
-            detailed_explanations = self.format_detailed_explanation(rule_name, facts_used, conclusion, reasoning)
-            
-            if key not in self.explanations:
-                self.explanations[key] = []
-                
-            # Adicionar explicações detalhadas
-            for explanation in detailed_explanations:
-                if explanation not in self.explanations[key]:
-                    self.explanations[key].append(explanation)
-        # Caso contrário, usar explicações simples fornecidas
-        elif explanations:
-            if key not in self.explanations:
-                self.explanations[key] = []
-                
-            # Adicionar explicações simples
-            for explanation in explanations:
-                if explanation not in self.explanations[key]:
-                    self.explanations[key].append(explanation)
-        
-        # Criar nova classificação
+                return True
+        return False
+
+    def _add_detailed_explanations(self, key, facts_used, violence_type, subtype, reasoning):
+        rule_name = inspect.currentframe().f_back.f_code.co_name
+        conclusion = f"{violence_type}" + (f" do tipo {subtype}" if subtype else "")
+        detailed_explanations = self.format_detailed_explanation(rule_name, facts_used, conclusion, reasoning)
+        if key not in self.explanations:
+            self.explanations[key] = []
+        for explanation in detailed_explanations:
+            if explanation not in self.explanations[key]:
+                self.explanations[key].append(explanation)
+
+    def _add_simple_explanations(self, key, explanations):
+        if key not in self.explanations:
+            self.explanations[key] = []
+        for explanation in explanations:
+            if explanation not in self.explanations[key]:
+                self.explanations[key].append(explanation)
+
+    def _declare_classification_fact(self, violence_type, subtype, key):
         self.declare(
             ViolenceClassification(
                 violence_type=violence_type,
                 subtype=subtype,
-                explanation=self.explanations.get(key, []).copy()  # Usar a lista completa e atual
+                explanation=self.explanations.get(key, []).copy()
             )
         )
     
@@ -94,8 +88,7 @@ class BaseViolenceEngine(KnowledgeEngine):
         Executa o motor em modo controlado por fases.
         """
         print("\nIniciando análise com motor de inferência...")
-        steps_value = -1 if steps is None else steps
-        
+                
         # Limitar o número máximo de iterações para evitar loops infinitos
         max_iterations = 100
         iteration = 0

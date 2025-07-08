@@ -54,7 +54,7 @@ class ProcessingPhase(Fact):
     """Controla a fase de processamento do motor de inferência."""
     phase = Field(str, mandatory=True)  # 'collection', 'analysis'
 
-def print_information(violence_type, subtype=None, confidence=None):
+def print_information(violence_type, subtype=None):
     info = VIOLENCE_TYPES.get(violence_type)
     if not info:
         st.warning("Informações adicionais não disponíveis.")
