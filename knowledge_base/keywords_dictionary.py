@@ -361,7 +361,6 @@ KEYWORD_DESCRIPTIONS = {
     "desconhecido": "Identificada quando o relacionamento é com alguém desconhecido.",
     "ex_relacionamento": "Identificada quando o relacionamento é com um ex-parceiro ou ex-parceira.",
     # impact
-    "constrangimento": "Identificada quando o comportamento causa constrangimento a alguém.",
     "impacto_participacao": "Identificada quando o comportamento impacta a participação de alguém.",
     "danos_emocionais": "Identificada quando o comportamento causa danos emocionais a alguém.",
     "limitacao_liberdade": "Identificada quando o comportamento causa limitação da liberdade de alguém.",

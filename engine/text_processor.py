@@ -34,7 +34,7 @@ class TextProcessor:
             self._print_keywords_summary(keywords)
 
             if keywords:
-                print(f"\nCriando fatos para o motor de inferência...")
+                print("\nCriando fatos para o motor de inferência...")
                 self._add_keyword_facts(facts, keywords)
                 print(f"{len(facts)} fatos criados para análise")
             else:
@@ -53,7 +53,7 @@ class TextProcessor:
     def _print_keywords_summary(self, keywords: Dict):
         if not keywords:
             return
-        print(f"Elementos identificados no relato:")
+        print("Elementos identificados no relato:")
         category_names = {
             "action_type": "Comportamentos",
             "frequency": "Frequência",
